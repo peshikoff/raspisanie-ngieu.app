@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Try1RASP.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:view="clr-namespace:Try1RASP.Views"
+    xmlns:local ="clr-namespace:Try1RASP">
+
+    <TabBar>
+        <Tab Title="MainPage"
+             Icon="home.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:MainPage}"/>
+        </Tab>
+        <Tab
+            Title="Settings"
+            Icon="settings.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}"/>
+        </Tab>
+    </TabBar>
+
+</Shell>
+
+
