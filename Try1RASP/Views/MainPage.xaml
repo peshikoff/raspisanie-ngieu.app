@@ -20,23 +20,43 @@
                             >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="10">
+                        <Grid Padding="9">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="1"
+
+                            <Label 
+                              Grid.Row="0"
                               Text="{Binding Lesson}"
-                              FontAttributes="Bold" />
-                            <Label Grid.Row="1"
-                              Grid.Column="1"
-                              Text="{Binding FIO}"
-                              FontAttributes="Italic"
-                              VerticalOptions="End" />
+                              FontAttributes="Bold"/>
+
+                            <Label 
+                              Grid.Row="1"
+                              Text="{Binding Time,StringFormat='Время: {0}'}"/>
+                            <Label 
+                              Grid.Row="2"
+                              Text="{Binding Room,TargetNullValue='',StringFormat='Кабинет: {0}'}"
+                              />
+                            <Label 
+                              Grid.Row="4"
+                              Text="{Binding FIO,
+                                TargetNullValue='',
+                                StringFormat='Преподаватель: {0}'}"
+                              
+                                />
+                            <Label 
+                              Grid.Row="5"
+                              Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

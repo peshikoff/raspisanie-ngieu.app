@@ -1,8 +1,7 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Try1RASP.Models;
@@ -16,14 +15,14 @@ public partial class MainPage : ContentPage
     List<RaspisanieModel> rasp = new();
     public MainPage()
 	{
-		InitializeComponent();
+
+        InitializeComponent();
 	}
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
           rasp = await restService.RefreshDataAsync();
-
         }
         catch (Exception ex)
         {
@@ -31,6 +30,7 @@ public partial class MainPage : ContentPage
         }
         colView.ItemsSource = rasp;
 
-    }
+    }    
+
 }
 
