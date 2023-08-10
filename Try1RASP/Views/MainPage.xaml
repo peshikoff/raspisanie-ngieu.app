@@ -6,24 +6,46 @@
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+            Padding="30,0">
+            <Grid x:Name="Choose_settings"
+                  Margin="2"
+                  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                    x:Name="raspisanie_chck_bx_txt"
+                    Text="Raspisanie"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    />
 
-            <Button
-                x:Name="CounterBtn"
-                Text="получить"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="GetDataFromApi"
-                HorizontalOptions="Center" />
 
+                <CheckBox x:Name="raspisanie_chck_bx"
+                    
+                    Grid.Column ="0"
+                    Grid.Row="0"
+                    >
+                    
+                </CheckBox>
+                
+            </Grid>
+            <HorizontalStackLayout x:Name="Choose_day_layout">
+                
+            </HorizontalStackLayout>
             <CollectionView x:Name="colView"
                             >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="9">
+                        <Grid Margin="5">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -32,37 +54,71 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
-                            <Label 
-                              Grid.Row="0"
-                              Text="{Binding Lesson}"
-                              FontAttributes="Bold"/>
-
-                            <Label 
+                            
+                            <Border
+                                Stroke="Gray"
+                                BackgroundColor="#e1e1e1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="30"/>
+                                    </Border.StrokeShape>
+                                    <Label
+                                        x:Name="Lesson_label"
+                                        IsVisible="{Binding Vision}"
+                                        Grid.Row="0"
+                                        Text="{Binding Lesson,TargetNullValue=''}"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="Header"
+                                    />
+                            </Border>
+                                <Label
+                              x:Name="Time_label"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="1"
-                              Text="{Binding Time,StringFormat='Время: {0}'}"/>
+                              Text="{Binding Time,TargetNullValue='',StringFormat='Время: {0}'}"
+                              VerticalOptions="Center"
+                              HorizontalOptions="StartAndExpand"
+                            />
+                            
                             <Label 
+                              x:Name="Room_label"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="2"
                               Text="{Binding Room,TargetNullValue='',StringFormat='Кабинет: {0}'}"
-                              />
+                              VerticalOptions="Center"
+                              HorizontalOptions="StartAndExpand"
+                            />
+                            
+                            <Label
+                              x:Name="FIO_label"
+                              IsVisible="{Binding Vision}"
+                              Grid.Row="3"
+                              Text="{Binding FIO,TargetNullValue='',StringFormat='Преподаватель: {0}'}"
+                              VerticalOptions="Center"
+                              HorizontalOptions="StartAndExpand"
+                            />
+                            
                             <Label 
+                              x:Name="Type_label"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="4"
-                              Text="{Binding FIO,
-                                TargetNullValue='',
-                                StringFormat='Преподаватель: {0}'}"
-                              
-                                />
-                            <Label 
-                              Grid.Row="5"
-                              Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"/>
+                              Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"
+                              VerticalOptions="Center"
+                              HorizontalOptions="StartAndExpand"
+                            />
+                            
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
-
             </CollectionView>
+            <Button
+                x:Name="CounterBtn"
+                Text="Запросить"
+                Clicked="GetDataFromApi"
+                HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>

@@ -17,12 +17,13 @@ public partial class MainPage : ContentPage
 	{
 
         InitializeComponent();
+        
 	}
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
-          rasp = await restService.RefreshDataAsync();
+          rasp = await restService.GETraspisanieWithChanges();
         }
         catch (Exception ex)
         {
@@ -30,7 +31,18 @@ public partial class MainPage : ContentPage
         }
         colView.ItemsSource = rasp;
 
-    }    
+    }
 
+    public static bool Vision(string item)
+    {
+        if(item == "")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
 
