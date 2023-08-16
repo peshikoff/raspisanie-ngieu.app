@@ -10,13 +10,13 @@ using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using Try1RASP.Views;
 
+
 namespace Try1RASP.Services
 {
     public class RestService
     {
-        HttpClient _client;
-        JsonSerializerOptions _serializerOptions;
-        List<RaspisanieModel> raspisanie = new();
+        readonly HttpClient _client;
+        readonly JsonSerializerOptions _serializerOptions;
         List<RaspisanieModel> rasp = new();
         List<Groups> groups = new();
         List<Weeks> week = new();
@@ -35,7 +35,7 @@ namespace Try1RASP.Services
         public async Task<List<RaspisanieModel>> GETraspisanieWithChanges()
         {
             var group = Preferences.Get("group","");
-            var day = "Понедельник";
+            var day = "Четверг";
 
 
             

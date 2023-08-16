@@ -17,27 +17,90 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label
+                    FontSize="Body"
                     x:Name="raspisanie_chck_bx_txt"
-                    Text="Raspisanie"
+                    Text="Расписание"
                     Grid.Row="0"
                     Grid.Column="0"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Start"
                     />
 
 
                 <CheckBox x:Name="raspisanie_chck_bx"
-                    
-                    Grid.Column ="0"
+                    Grid.Column ="1"
                     Grid.Row="0"
+                    VerticalOptions="End"
+                    HorizontalOptions="Center"
                     >
                     
                 </CheckBox>
-                
+                <Label
+                    FontSize="Body"
+                    x:Name="changes_chck_bx_txt"
+                    Text="Изменения"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    />
+                <CheckBox
+                    x:Name="changes_chck_bx"
+                    Grid.Column="3"
+                    Grid.Row="0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    />
+                <Label 
+                    x:Name="CurrentWeek"
+                    Grid.Column="4"
+                    Grid.Row="0"
+                    Text="{Binding Week, StringFormat='{Неделя: {0}'}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    FontSize="Body"
+                       />
             </Grid>
-            <HorizontalStackLayout x:Name="Choose_day_layout">
-                
-            </HorizontalStackLayout>
+            <ScrollView
+                x:Name="Choose_day_layout"
+                Margin="5"
+                HorizontalScrollBarVisibility="Always"
+                Orientation="Horizontal"
+                Padding="12"
+                >
+                <HorizontalStackLayout
+                    x:Name="HSL"
+                    Spacing="12"
+                    >
+                    <Button x:Name="Monday"
+                        Text="Понедельник"
+                        Clicked="Day_Clicked"
+                        />
+                    <Button x:Name="Tuesday"
+                        Text="Вторник"
+                        />
+                    <Button x:Name="Wednesday"
+                        Text="Среда"
+                        />
+                    <Button x:Name="Thursday"
+                        Text="Четверг"
+                        />
+                    <Button x:Name="Friday"
+                        Text="Пятница"
+                        />
+                    <Button x:Name="Saturday"
+                        Text="Суббота"
+                        />
+                    <Button x:Name="Sunday"
+                        Text="Воскресенье"
+                        />
+                </HorizontalStackLayout>
+            </ScrollView>
             <CollectionView x:Name="colView"
                             >
                 <CollectionView.ItemTemplate>
@@ -65,18 +128,19 @@
                                     </Border.StrokeShape>
                                     <Label
                                         x:Name="Lesson_label"
-                                        IsVisible="{Binding Vision}"
+                                        FontSize="Header"
+                                        IsEnabled="{Binding Vision}"
                                         Grid.Row="0"
                                         Text="{Binding Lesson,TargetNullValue=''}"
                                         FontAttributes="Bold"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"
-                                        FontSize="Header"
+                                        
                                     />
                             </Border>
-                                <Label
+                            <Label
                               x:Name="Time_label"
-                              IsVisible="{Binding Vision}"
+                              IsEnabled="{Binding Vision}"
                               Grid.Row="1"
                               Text="{Binding Time,TargetNullValue='',StringFormat='Время: {0}'}"
                               VerticalOptions="Center"
@@ -85,7 +149,7 @@
                             
                             <Label 
                               x:Name="Room_label"
-                              IsVisible="{Binding Vision}"
+                              IsEnabled="{Binding Vision}"
                               Grid.Row="2"
                               Text="{Binding Room,TargetNullValue='',StringFormat='Кабинет: {0}'}"
                               VerticalOptions="Center"
@@ -94,7 +158,7 @@
                             
                             <Label
                               x:Name="FIO_label"
-                              IsVisible="{Binding Vision}"
+                              IsEnabled="{Binding Vision}"
                               Grid.Row="3"
                               Text="{Binding FIO,TargetNullValue='',StringFormat='Преподаватель: {0}'}"
                               VerticalOptions="Center"
@@ -102,8 +166,8 @@
                             />
                             
                             <Label 
-                              x:Name="Type_label"
-                              IsVisible="{Binding Vision}"
+                              x:Name="Type_label"                               
+                              IsEnabled="{Binding Vision}"
                               Grid.Row="4"
                               Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"
                               VerticalOptions="Center"
