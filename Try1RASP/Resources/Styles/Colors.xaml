@@ -22,6 +22,7 @@
     <Color x:Key="Orange">#ffa300</Color>
     <Color x:Key="Purple">#621472</Color>
     <Color x:Key="DarkBlue">#002060</Color>
+    <Color x:Key="DarkOliveGreen">#556B2F</Color>
     
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

@@ -1,103 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Try1RASP.Views.MainPage">
+             x:Class="Try1RASP.Views.MainPage"
+             xmlns:local="clr-namespace:Try1RASP.CustomControls"
+             >
 
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0">
-            <Grid x:Name="Choose_settings"
+            <HorizontalStackLayout
+                x:Name="Choose_settings"
                   Margin="2"
+                Spacing="12"
                   >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Label
+
+                <local:ToggleButton
                     FontSize="Body"
                     x:Name="raspisanie_chck_bx_txt"
                     Text="Расписание"
                     Grid.Row="0"
                     Grid.Column="0"
-                    VerticalTextAlignment="Center"
-                    HorizontalTextAlignment="Start"
                     />
-
-
-                <CheckBox x:Name="raspisanie_chck_bx"
-                    Grid.Column ="1"
-                    Grid.Row="0"
-                    VerticalOptions="End"
-                    HorizontalOptions="Center"
-                    >
-                    
-                </CheckBox>
-                <Label
+                <local:ToggleButton
                     FontSize="Body"
                     x:Name="changes_chck_bx_txt"
                     Text="Изменения"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    />
-                <CheckBox
-                    x:Name="changes_chck_bx"
-                    Grid.Column="3"
-                    Grid.Row="0"
-                    VerticalOptions="Center"
-                    HorizontalOptions="End"
+                   
                     />
                 <Label 
                     x:Name="CurrentWeek"
-                    Grid.Column="4"
-                    Grid.Row="0"
                     Text="{Binding Week, StringFormat='{Неделя: {0}'}"
                     VerticalOptions="Center"
                     HorizontalOptions="End"
                     FontSize="Body"
                        />
-            </Grid>
+            </HorizontalStackLayout>
             <ScrollView
-                x:Name="Choose_day_layout"
+                x:Name="Choose_day_ScrollView"
                 Margin="5"
                 HorizontalScrollBarVisibility="Always"
                 Orientation="Horizontal"
                 Padding="12"
                 >
+                   
                 <HorizontalStackLayout
-                    x:Name="HSL"
+                    x:Name="Choose_day_HSL"
                     Spacing="12"
                     >
-                    <Button x:Name="Monday"
+                    <local:ToggleButton
+                        x:Name="Monday"
                         Text="Понедельник"
-                        Clicked="Day_Clicked"
+                        Clicked="Day_Toggled"
+                        
+                        
                         />
-                    <Button x:Name="Tuesday"
+
+                    <local:ToggleButton 
+                        x:Name="Tuesday"
                         Text="Вторник"
+                        Clicked="Day_Toggled"
                         />
-                    <Button x:Name="Wednesday"
+                    <local:ToggleButton 
+                        x:Name="Wednesday"
                         Text="Среда"
+                        Clicked="Day_Toggled"
                         />
-                    <Button x:Name="Thursday"
+                    <local:ToggleButton 
+                        x:Name="Thursday"
                         Text="Четверг"
+                        Clicked="Day_Toggled"
                         />
-                    <Button x:Name="Friday"
+                    <local:ToggleButton 
+                        x:Name="Friday"
                         Text="Пятница"
+                        Clicked="Day_Toggled"
                         />
-                    <Button x:Name="Saturday"
+                    <local:ToggleButton 
+                        x:Name="Saturday"
                         Text="Суббота"
+                        Clicked="Day_Toggled"
                         />
-                    <Button x:Name="Sunday"
+                    <local:ToggleButton 
+                        x:Name="Sunday"
                         Text="Воскресенье"
+                        Clicked="Day_Toggled"
                         />
                 </HorizontalStackLayout>
             </ScrollView>

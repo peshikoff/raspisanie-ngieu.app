@@ -35,7 +35,7 @@ namespace Try1RASP.Services
         public async Task<List<RaspisanieModel>> GETraspisanieWithChanges()
         {
             var group = Preferences.Get("group","");
-            var day = "Четверг";
+            var day = Preferences.Get("day", "");
 
 
             
