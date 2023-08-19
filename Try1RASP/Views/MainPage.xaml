@@ -14,13 +14,10 @@
                   Margin="2"
                 Spacing="12"
                   >
-
                 <local:ToggleButton
                     FontSize="Body"
                     x:Name="raspisanie_chck_bx_txt"
                     Text="Расписание"
-                    Grid.Row="0"
-                    Grid.Column="0"
                     />
                 <local:ToggleButton
                     FontSize="Body"
@@ -30,7 +27,7 @@
                     />
                 <Label 
                     x:Name="CurrentWeek"
-                    Text="{Binding Week, StringFormat='{Неделя: {0}'}"
+                    Text="{Binding Week, TargetNullValue='' ,StringFormat='{Неделя: {0}'}"
                     VerticalOptions="Center"
                     HorizontalOptions="End"
                     FontSize="Body"
@@ -43,7 +40,6 @@
                 Orientation="Horizontal"
                 Padding="12"
                 >
-                   
                 <HorizontalStackLayout
                     x:Name="Choose_day_HSL"
                     Spacing="12"
@@ -51,41 +47,31 @@
                     <local:ToggleButton
                         x:Name="Monday"
                         Text="Понедельник"
-                        Clicked="Day_Toggled"
-                        
-                        
-                        />
-
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Tuesday"
                         Text="Вторник"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Wednesday"
                         Text="Среда"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Thursday"
                         Text="Четверг"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Friday"
                         Text="Пятница"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Saturday"
                         Text="Суббота"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                     <local:ToggleButton 
                         x:Name="Sunday"
                         Text="Воскресенье"
-                        Clicked="Day_Toggled"
-                        />
+                        Clicked="Day_Toggled"/>
                 </HorizontalStackLayout>
             </ScrollView>
             <CollectionView x:Name="colView"

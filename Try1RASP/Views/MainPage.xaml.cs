@@ -24,7 +24,6 @@ public partial class MainPage : ContentPage
     List<Weeks> week = new();
     public MainPage()
 	{
-
         InitializeComponent();
         try
         {
@@ -35,11 +34,8 @@ public partial class MainPage : ContentPage
                     btn.IsToggled = true;
                     if (App.Current.Resources.TryGetValue("DarkOliveGreen", out var colorvalue))
                     {
-
                         btn.BackgroundColor = (Color)colorvalue;
-
                     }
-
                 }
             }
         }
@@ -47,93 +43,98 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-
-        GetCurrentWeek();
-
+        try
+        {
+            GetCurrentWeek();
+        }
+        catch (Exception ex)
+        {
+            Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
+        }
     }
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
           rasp = await restService.GETraspisanieWithChanges();
+          colView.ItemsSource = rasp;
+          GetCurrentWeek();
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-        colView.ItemsSource = rasp;
-        GetCurrentWeek();
-
     }
 
     public static bool Vision(string item)
     {
-        if(item == "")
+        if (item == "")
         {
             return false;
         }
         else
         {
             return true;
-        }
+        }        
     }
     public async void GetCurrentWeek()
     {
         try
         {
             week = await restService.GetWeeksAsync();
+            CurrentWeek.Text = week.FirstOrDefault().ToString();
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-        CurrentWeek.Text = week.ToString();
     }
 
     private void Day_Toggled(object sender, EventArgs e)
     {
-        Color color = new();
-        Color Primary = new();
-        if (App.Current.Resources.TryGetValue("Primary", out var colorvalue))
+        try
         {
-
-            Primary = (Color)colorvalue;
-
-        };
-
-        if (App.Current.Resources.TryGetValue("DarkOliveGreen", out colorvalue))
-        {
-
-            color = (Color)colorvalue;
-
-        }
-
-        Monday.BackgroundColor = Primary;
-        Monday.IsToggled = false;
-        Tuesday.BackgroundColor = Primary;
-        Tuesday.IsToggled = false;
-        Wednesday.BackgroundColor = Primary;
-        Wednesday.IsToggled = false;
-        Thursday.BackgroundColor = Primary;
-        Thursday.IsToggled = false; 
-        Friday.BackgroundColor = Primary;
-        Friday.IsToggled = false; 
-        Saturday.BackgroundColor = Primary;
-        Saturday.IsToggled = false; 
-        Sunday.BackgroundColor  = Primary;
-        Sunday.IsToggled = false;
-
-        if (sender is ToggleButton)
-        {
-            ToggleButton btn = (ToggleButton)sender;
-            btn.IsToggled=true;
-            if (btn.IsToggled==true)
+            Color color = new();
+            Color Primary = new();
+            if (App.Current.Resources.TryGetValue("Primary", out var colorvalue))
             {
+                Primary = (Color)colorvalue;
+            }
+            if (App.Current.Resources.TryGetValue("DarkOliveGreen", out colorvalue))
+            {
+                color = (Color)colorvalue;
+            }
 
-                btn.BackgroundColor = color;
-                Preferences.Set("day", btn.Text.ToString());
+            foreach (ToggleButton btn in Choose_day_HSL)
+            {
+                try
+                {
+                    btn.BackgroundColor = Primary;
+                    btn.IsToggled = false;
+                }
+                catch(Exception ex)
+                {
+                    Debug.Fail(ex.ToString());
+                }
+            }
+
+            if (sender is ToggleButton)
+            {
+                ToggleButton btn = (ToggleButton)sender;
+                btn.IsToggled = true;
+                if (btn.IsToggled == true)
+                {
+                    btn.BackgroundColor = color;
+                    Preferences.Set("day", btn.Text.ToString());
+                }
             }
         }
+        catch(Exception ex)
+        {
+            Debug.Fail(ex.ToString());
+        }
+
+        
     }
 }
 

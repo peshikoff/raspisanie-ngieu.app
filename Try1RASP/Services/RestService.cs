@@ -9,7 +9,7 @@ using Try1RASP.Models;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using Try1RASP.Views;
-
+using Try1RASP.CustomControls;
 
 namespace Try1RASP.Services
 {
@@ -20,8 +20,6 @@ namespace Try1RASP.Services
         List<RaspisanieModel> rasp = new();
         List<Groups> groups = new();
         List<Weeks> week = new();
-
-
 
         public RestService()
         {
@@ -36,16 +34,12 @@ namespace Try1RASP.Services
         {
             var group = Preferences.Get("group","");
             var day = Preferences.Get("day", "");
-
-
-            
                 try
                 {
-                    HttpResponseMessage response = await _client.GetAsync("http://10.0.2.2:8765/api/Mobile/raspisanie/" + group + "/" + day, HttpCompletionOption.ResponseHeadersRead);
+                    HttpResponseMessage response = await _client.GetAsync("http://10.0.2.2:8765/api/Mobile/raspisanie/" + group + "/" + day+"/2", HttpCompletionOption.ResponseHeadersRead);
                     if (response.IsSuccessStatusCode)
                     {
                         string json1 = await response.Content.ReadAsStringAsync();
-                        //raspisanie = await response.Content.ReadFromJsonAsync<List<RaspisanieModel>>();
                         rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
 
                     }
@@ -61,6 +55,36 @@ namespace Try1RASP.Services
                 }
             
             return rasp;
+        }
+        public async Task<List<RaspisanieModel>> GetData()
+        {
+            var group = Preferences.Get("group", "");
+            var day = Preferences.Get("day", "");
+
+
+
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync("http://10.0.2.2:8765/api/Mobile/raspisanie/" + group + "/" + day, HttpCompletionOption.ResponseHeadersRead);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json1 = await response.Content.ReadAsStringAsync();
+                    rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+
+            }
+            finally
+            {
+
+            }
+
+            return rasp;
+
         }
 
         public async Task<List<Groups>> GetGroupsAsync()
