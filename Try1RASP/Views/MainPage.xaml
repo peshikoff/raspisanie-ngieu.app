@@ -16,13 +16,18 @@
                   >
                 <local:ToggleButton
                     FontSize="Body"
-                    x:Name="raspisanie_chck_bx_txt"
+                    x:Name="raspisanie_Tog_btn"
                     Text="Расписание"
+                    Toggled="raspisanie_Tog_btn_Toggled"
+                    FontFamily="Circle-Regular"
+                    
                     />
                 <local:ToggleButton
                     FontSize="Body"
-                    x:Name="changes_chck_bx_txt"
+                    x:Name="changes_Tog_btn"
                     Text="Изменения"
+                    FontFamily="Circle-Regular"
+                    Clicked="changes_Tog_btn_Toggled"
                    
                     />
                 <Label 
@@ -152,7 +157,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Button
-                x:Name="CounterBtn"
+                x:Name="Btn_refresh"
                 Text="Запросить"
                 Clicked="GetDataFromApi"
                 HorizontalOptions="Center" />

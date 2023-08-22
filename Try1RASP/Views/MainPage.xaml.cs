@@ -19,7 +19,7 @@ namespace Try1RASP.Views;
 
 public partial class MainPage : ContentPage
 {
-    RestService restService = new();
+    readonly RestService restService = new();
     List<RaspisanieModel> rasp = new();
     List<Weeks> week = new();
     public MainPage()
@@ -43,14 +43,14 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-        try
+        /*try
         {
             GetCurrentWeek();
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
-        }
+        }*/
     }
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
@@ -58,11 +58,11 @@ public partial class MainPage : ContentPage
         {
           rasp = await restService.GETraspisanieWithChanges();
           colView.ItemsSource = rasp;
-          GetCurrentWeek();
+          //GetCurrentWeek();
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
+            Debug.WriteLine(@"\tERROR {0}", ex.Message); // выведет ошибку в консоль студии
         }
     }
 
@@ -86,7 +86,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
         }
     }
 
@@ -135,6 +135,93 @@ public partial class MainPage : ContentPage
         }
 
         
+    }
+
+    private void changes_Tog_btn_Toggled(object sender, EventArgs e)
+    {
+        Color Secondary = new();
+        Color Primary = new();
+
+        try
+        {
+            if (App.Current.Resources.TryGetValue("Primary", out var colorvalue))
+            {
+                Primary = (Color)colorvalue;
+            }
+            if (App.Current.Resources.TryGetValue("DarkOliveGreen", out colorvalue))
+            {
+                Secondary = (Color)colorvalue;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Fail(ex.ToString());
+        }
+
+        try
+        {
+            if(sender is ToggleButton)
+            {
+                if(changes_Tog_btn.IsToggled == true)
+                {
+                    changes_Tog_btn.BackgroundColor = Secondary;
+                    Preferences.Set("changes", true);
+                }
+                else
+                {
+                    changes_Tog_btn.BackgroundColor = Primary;
+                    changes_Tog_btn.IsToggled = false;
+                    Preferences.Set("changes", false);
+                }
+
+            }
+        }
+        catch(Exception ex)
+        {
+            Debug.Fail(ex.ToString()); 
+        }
+    }
+
+    private void raspisanie_Tog_btn_Toggled(object sender, EventArgs e)
+    {
+        Color Secondary = new();
+        Color Primary = new();
+        try
+        {
+            if (App.Current.Resources.TryGetValue("Primary", out var colorvalue))
+            {
+                Primary = (Color)colorvalue;
+            }
+            if (App.Current.Resources.TryGetValue("DarkOliveGreen", out colorvalue))
+            {
+                Secondary = (Color)colorvalue;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Fail(ex.ToString());
+        }
+        try
+        {
+            if (sender is ToggleButton)
+            {
+                if (raspisanie_Tog_btn.IsToggled == true)
+                {
+                    raspisanie_Tog_btn.BackgroundColor = Secondary;
+                    Preferences.Set("raspisanie", true);
+                }
+                else
+                {
+                    raspisanie_Tog_btn.BackgroundColor = Primary;
+                    raspisanie_Tog_btn.IsToggled = false;
+                    Preferences.Set("raspisanie", false);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Fail(ex.ToString());
+        }
     }
 }
 

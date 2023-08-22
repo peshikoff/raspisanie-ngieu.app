@@ -46,6 +46,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\Circle-extralight.ttf" />
+	  <None Remove="Resources\Fonts\Circle-Regular.ttf" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\settings.svg" />
 	</ItemGroup>
