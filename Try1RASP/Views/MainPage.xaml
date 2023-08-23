@@ -19,14 +19,12 @@
                     x:Name="raspisanie_Tog_btn"
                     Text="Расписание"
                     Toggled="raspisanie_Tog_btn_Toggled"
-                    FontFamily="Circle-Regular"
                     
                     />
                 <local:ToggleButton
                     FontSize="Body"
                     x:Name="changes_Tog_btn"
                     Text="Изменения"
-                    FontFamily="Circle-Regular"
                     Clicked="changes_Tog_btn_Toggled"
                    
                     />
@@ -82,12 +80,14 @@
             <CollectionView x:Name="colView"
                             >
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="5">
+                    <DataTemplate
+                        x:Name="raspisanie_DT"
+                        >
+                        <Grid
+                            x:Name="raspisanieGrid"
+                            Margin="5"
+                            >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -107,7 +107,7 @@
                                     <Label
                                         x:Name="Lesson_label"
                                         FontSize="Header"
-                                        IsEnabled="{Binding Vision}"
+                                        IsVisible="{Binding Vision}"
                                         Grid.Row="0"
                                         Text="{Binding Lesson,TargetNullValue=''}"
                                         FontAttributes="Bold"
@@ -118,7 +118,7 @@
                             </Border>
                             <Label
                               x:Name="Time_label"
-                              IsEnabled="{Binding Vision}"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="1"
                               Text="{Binding Time,TargetNullValue='',StringFormat='Время: {0}'}"
                               VerticalOptions="Center"
@@ -127,7 +127,7 @@
                             
                             <Label 
                               x:Name="Room_label"
-                              IsEnabled="{Binding Vision}"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="2"
                               Text="{Binding Room,TargetNullValue='',StringFormat='Кабинет: {0}'}"
                               VerticalOptions="Center"
@@ -136,7 +136,7 @@
                             
                             <Label
                               x:Name="FIO_label"
-                              IsEnabled="{Binding Vision}"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="3"
                               Text="{Binding FIO,TargetNullValue='',StringFormat='Преподаватель: {0}'}"
                               VerticalOptions="Center"
@@ -144,8 +144,8 @@
                             />
                             
                             <Label 
-                              x:Name="Type_label"                               
-                              IsEnabled="{Binding Vision}"
+                              x:Name="Type_label"
+                              IsVisible="{Binding Vision}"
                               Grid.Row="4"
                               Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"
                               VerticalOptions="Center"

@@ -14,6 +14,9 @@ using Try1RASP.CustomControls;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Android.App;
+using Android.Widget;
+using CommunityToolkit.Maui.Alerts;
+using Toast = CommunityToolkit.Maui.Alerts.Toast;
 
 namespace Try1RASP.Views;
 
@@ -25,9 +28,11 @@ public partial class MainPage : ContentPage
     public MainPage()
 	{
         InitializeComponent();
+        Preferences.Set("raspisanie", false);
+        Preferences.Set("changes", false);
         try
         {
-            foreach (ToggleButton btn in Choose_day_HSL)
+            foreach (CustomControls.ToggleButton btn in Choose_day_HSL)
             {
                 if (btn.Text.ToString() == Preferences.Get("day", ""))
                 {
@@ -41,7 +46,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
+            Debug.Fail(ex.Message);
         }
         /*try
         {
@@ -56,25 +61,34 @@ public partial class MainPage : ContentPage
 	{
         try
         {
-          rasp = await restService.GETraspisanieWithChanges();
-          colView.ItemsSource = rasp;
-          //GetCurrentWeek();
+            if(changes_Tog_btn.IsToggled == false & raspisanie_Tog_btn.IsToggled == false)
+            {
+                var toast = Toast.Make("Выберите Расписание или Изменения", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
+            else
+            {
+                rasp = await restService.GETraspisanieWithChanges();
+                colView.ItemsSource = rasp;
+            }
+            //GetCurrentWeek();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(@"\tERROR {0}", ex.Message); // выведет ошибку в консоль студии
+            Debug.Fail(ex.Message);
         }
     }
 
-    public static bool Vision(string item)
+    public static void Vision(object sender, EventArgs e)
     {
-        if (item == "")
+        Label label = (Label)sender;
+        if (label.Text == "")
         {
-            return false;
+            label.IsVisible = false;
         }
         else
         {
-            return true;
+            label.IsVisible = true;
         }        
     }
     public async void GetCurrentWeek()
@@ -86,7 +100,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+            Debug.Fail(ex.Message);
         }
     }
 
@@ -105,7 +119,7 @@ public partial class MainPage : ContentPage
                 color = (Color)colorvalue;
             }
 
-            foreach (ToggleButton btn in Choose_day_HSL)
+            foreach (CustomControls.ToggleButton btn in Choose_day_HSL)
             {
                 try
                 {
@@ -114,13 +128,13 @@ public partial class MainPage : ContentPage
                 }
                 catch(Exception ex)
                 {
-                    Debug.Fail(ex.ToString());
+                    Debug.Fail(ex.Message);
                 }
             }
 
-            if (sender is ToggleButton)
+            if (sender is CustomControls.ToggleButton)
             {
-                ToggleButton btn = (ToggleButton)sender;
+                CustomControls.ToggleButton btn = (CustomControls.ToggleButton)sender;
                 btn.IsToggled = true;
                 if (btn.IsToggled == true)
                 {
@@ -131,10 +145,8 @@ public partial class MainPage : ContentPage
         }
         catch(Exception ex)
         {
-            Debug.Fail(ex.ToString());
+            Debug.Fail(ex.Message);
         }
-
-        
     }
 
     private void changes_Tog_btn_Toggled(object sender, EventArgs e)
@@ -155,12 +167,12 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString());
+            Debug.Fail(ex.Message);
         }
 
         try
         {
-            if(sender is ToggleButton)
+            if(sender is CustomControls.ToggleButton)
             {
                 if(changes_Tog_btn.IsToggled == true)
                 {
@@ -178,7 +190,7 @@ public partial class MainPage : ContentPage
         }
         catch(Exception ex)
         {
-            Debug.Fail(ex.ToString()); 
+            Debug.Fail(ex.Message);
         }
     }
 
@@ -199,11 +211,11 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString());
+            Debug.Fail(ex.Message);
         }
         try
         {
-            if (sender is ToggleButton)
+            if (sender is CustomControls.ToggleButton)
             {
                 if (raspisanie_Tog_btn.IsToggled == true)
                 {
@@ -220,7 +232,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.ToString());
+            Debug.Fail(ex.Message);
         }
     }
 }

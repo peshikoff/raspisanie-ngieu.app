@@ -102,7 +102,7 @@ namespace Try1RASP.Services
             }
             else if (raspisanie == false & changes == false)
             {
-                DependencyService.Get<MessageAndroid>().ShortAlert("Выберите Расписание/Изменение или комбинацию");
+                //DependencyService.Get<MessageAndroid>().ShortAlert("Выберите Расписание/Изменение или комбинацию");
             }
 
 
@@ -148,6 +148,5 @@ namespace Try1RASP.Services
             }
             return week;
         }
-
     }
 }
