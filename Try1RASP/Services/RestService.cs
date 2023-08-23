@@ -11,6 +11,8 @@ using System.Text.Json.Nodes;
 using Try1RASP.Views;
 using Try1RASP.CustomControls;
 using static Android.Telephony.CarrierConfigManager;
+using Android.Widget;
+using Toast = CommunityToolkit.Maui.Alerts.Toast;
 
 namespace Try1RASP.Services
 {
@@ -40,7 +42,6 @@ namespace Try1RASP.Services
             var day           = Preferences.Get("day", "");
             bool raspisanie   = Preferences.Get("raspisanie", false);
             bool changes      = Preferences.Get("changes", false);
-
 
             if (raspisanie == true & changes == true)
             {
@@ -100,11 +101,6 @@ namespace Try1RASP.Services
                     Debug.WriteLine(@"\tERROR {0}", ex.Message);
                 }
             }
-            else if (raspisanie == false & changes == false)
-            {
-                DependencyService.Get<MessageAndroid>().ShortAlert("Выберите Расписание/Изменение или комбинацию");
-            }
-
 
             return rasp;
         }
@@ -131,7 +127,8 @@ namespace Try1RASP.Services
         {
             try
             {
-                HttpResponseMessage response = await _client.GetAsync("http://10.0.0.2:8765/api/Support/GetCurrentWeek", HttpCompletionOption.ResponseHeadersRead);
+                HttpResponseMessage response = await _client
+                    .GetAsync(supportURI+"GetCurrentWeek", HttpCompletionOption.ResponseHeadersRead);
                 if (response.IsSuccessStatusCode)
                 {
                     string json1 = await response.Content.ReadAsStringAsync();

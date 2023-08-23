@@ -7,11 +7,15 @@
     xmlns:local ="clr-namespace:Try1RASP">
 
     <TabBar>
-        <Tab Title="MainPage"
-             Icon="home.svg">
+        <Tab 
+            x:Name="MainPage_tab"
+            Title="MainPage"
+            Icon="home.svg"
+             >
             <ShellContent ContentTemplate="{DataTemplate view:MainPage}"/>
         </Tab>
         <Tab
+            x:Name="Settings_tab"
             Title="Settings"
             Icon="settings.svg">
             <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}"/>

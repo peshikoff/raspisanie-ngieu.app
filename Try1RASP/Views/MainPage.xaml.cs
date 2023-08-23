@@ -14,6 +14,7 @@ using Try1RASP.CustomControls;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Android.App;
+using CommunityToolkit.Maui.Alerts;
 
 namespace Try1RASP.Views;
 
@@ -43,22 +44,30 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-        /*try
+        try
         {
             GetCurrentWeek();
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
-        }*/
+        }
     }
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
-          rasp = await restService.GETraspisanieWithChanges();
-          colView.ItemsSource = rasp;
-          //GetCurrentWeek();
+            if(changes_Tog_btn.IsToggled == false & raspisanie_Tog_btn.IsToggled == false)
+            {
+                var toast = Toast.Make("Выберите Расписание или Изменения", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
+            else
+            {
+                rasp = await restService.GETraspisanieWithChanges();
+                colView.ItemsSource = rasp;
+                GetCurrentWeek();
+            }
         }
         catch (Exception ex)
         {
@@ -82,7 +91,8 @@ public partial class MainPage : ContentPage
         try
         {
             week = await restService.GetWeeksAsync();
-            CurrentWeek.Text = week.FirstOrDefault().ToString();
+            CurrentWeek.Text = week.SingleOrDefault().Week.ToString();
+
         }
         catch (Exception ex)
         {

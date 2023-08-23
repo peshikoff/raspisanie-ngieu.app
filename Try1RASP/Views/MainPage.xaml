@@ -32,10 +32,10 @@
                     />
                 <Label 
                     x:Name="CurrentWeek"
-                    Text="{Binding Week, TargetNullValue='' ,StringFormat='{Неделя: {0}'}"
                     VerticalOptions="Center"
+                    FontFamily="Circle-Regular"
                     HorizontalOptions="End"
-                    FontSize="Body"
+                    FontSize="14"
                        />
             </HorizontalStackLayout>
             <ScrollView
@@ -52,31 +52,45 @@
                     <local:ToggleButton
                         x:Name="Monday"
                         Text="Понедельник"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Tuesday"
                         Text="Вторник"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Wednesday"
                         Text="Среда"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Thursday"
                         Text="Четверг"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Friday"
                         Text="Пятница"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Saturday"
                         Text="Суббота"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                     <local:ToggleButton 
                         x:Name="Sunday"
                         Text="Воскресенье"
-                        Clicked="Day_Toggled"/>
+                        Clicked="Day_Toggled"
+                        FontFamily="Circle-Regular"
+                    />
                 </HorizontalStackLayout>
             </ScrollView>
             <CollectionView x:Name="colView"
@@ -111,6 +125,7 @@
                                         Grid.Row="0"
                                         Text="{Binding Lesson,TargetNullValue=''}"
                                         FontAttributes="Bold"
+                                        FontFamily="Circle-Regular"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"
                                         
@@ -121,6 +136,7 @@
                               IsEnabled="{Binding Vision}"
                               Grid.Row="1"
                               Text="{Binding Time,TargetNullValue='',StringFormat='Время: {0}'}"
+                              FontFamily="Circle-Regular"
                               VerticalOptions="Center"
                               HorizontalOptions="StartAndExpand"
                             />
@@ -130,6 +146,7 @@
                               IsEnabled="{Binding Vision}"
                               Grid.Row="2"
                               Text="{Binding Room,TargetNullValue='',StringFormat='Кабинет: {0}'}"
+                              FontFamily="Circle-Regular"
                               VerticalOptions="Center"
                               HorizontalOptions="StartAndExpand"
                             />
@@ -138,6 +155,7 @@
                               x:Name="FIO_label"
                               IsEnabled="{Binding Vision}"
                               Grid.Row="3"
+                              FontFamily="Circle-Regular"
                               Text="{Binding FIO,TargetNullValue='',StringFormat='Преподаватель: {0}'}"
                               VerticalOptions="Center"
                               HorizontalOptions="StartAndExpand"
@@ -147,6 +165,7 @@
                               x:Name="Type_label"                               
                               IsEnabled="{Binding Vision}"
                               Grid.Row="4"
+                              FontFamily="Circle-Regular"
                               Text="{Binding Type,TargetNullValue='',StringFormat='Подгруппа: {0}'}"
                               VerticalOptions="Center"
                               HorizontalOptions="StartAndExpand"
@@ -160,7 +179,9 @@
                 x:Name="Btn_refresh"
                 Text="Запросить"
                 Clicked="GetDataFromApi"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                FontFamily="Circle-Regular"
+                />
 
         </VerticalStackLayout>
     </ScrollView>
