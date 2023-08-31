@@ -2,53 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Try1RASP.Views.SettingsPage"
-             Title="Hahhaah"
              >
-    
+
     <VerticalStackLayout>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    x:Name="Group_choice"
-                    Height="Auto"/>
-                <RowDefinition
-                    x:Name="NextAbility"
-                    Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    x:Name="Titles"
-                    Width="Auto"/>
-                <ColumnDefinition 
-                    x:Name="ColFunctions"
-                    Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
+        <Label
                 Text="Ваша группа:"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Start"
                 VerticalTextAlignment="End"
-                BackgroundColor="Aqua"
                 
                 />
             <Picker
-                Grid.Row="0"
-                Grid.Column="1"
                 VerticalTextAlignment="End"
                 HorizontalTextAlignment="Start"
                 VerticalOptions="Center"
-                
-                BackgroundColor="Aqua"
                 HorizontalOptions="Center"
                 x:Name="Choose_group_picker"
-                Title="Выберите группу"
                 ItemDisplayBinding="{Binding Group}"
                 SelectedIndexChanged="Choose_group_picker_SelectedIndexChanged"/>
             
-        </Grid>
+        
         
         
     </VerticalStackLayout>

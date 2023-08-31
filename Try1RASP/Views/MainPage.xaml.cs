@@ -23,6 +23,19 @@ public partial class MainPage : ContentPage
     readonly RestService restService = new();
     List<RaspisanieModel> rasp = new();
     List<Weeks> week = new();
+    readonly List<RaspisanieModel> plug = new()
+    {
+        new RaspisanieModel
+        {
+            Day="",
+            Number=0,
+            Time="",
+            Lesson="НЕ НАЙДЕНО",
+            Type="",
+            FIO="",
+            Room=""
+        }
+    };
     public MainPage()
 	{
         InitializeComponent();
@@ -52,21 +65,42 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
+        Btn_refresh.Text = "Запросить";
     }
 	public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
+            Btn_refresh.Text = "Обновить";
             if(changes_Tog_btn.IsToggled == false & raspisanie_Tog_btn.IsToggled == false)
             {
                 var toast = Toast.Make("Выберите Расписание или Изменения", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
                 await toast.Show();
             }
+            else if(Preferences.Get("group", "")=="")
+            {
+                var toast = Toast.Make("Вы не выбрали группу", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
+            else if (Preferences.Get("day","")=="")
+            {
+                var toast = Toast.Make("Вы не выбрали день", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
             else
             {
                 rasp = await restService.GETraspisanieWithChanges();
-                colView.ItemsSource = rasp;
-                GetCurrentWeek();
+                Task.WaitAny(Task.FromResult(rasp));
+                if(rasp.Count>0)
+                {
+                    colView.ItemsSource = rasp;
+                    GetCurrentWeek();
+                }
+                else
+                {
+                    colView.ItemsSource = plug;
+                    GetCurrentWeek();
+                }
             }
         }
         catch (Exception ex)
@@ -128,7 +162,7 @@ public partial class MainPage : ContentPage
                 }
             }
 
-            if (sender is ToggleButton)
+            if (sender is ToggleButton )
             {
                 ToggleButton btn = (ToggleButton)sender;
                 btn.IsToggled = true;
@@ -143,8 +177,6 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString());
         }
-
-        
     }
 
     private void changes_Tog_btn_Toggled(object sender, EventArgs e)
@@ -167,7 +199,6 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString());
         }
-
         try
         {
             if(sender is ToggleButton)

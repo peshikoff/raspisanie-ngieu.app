@@ -9,14 +9,14 @@
     <TabBar>
         <Tab 
             x:Name="MainPage_tab"
-            Title="MainPage"
+            Title="Главная"
             Icon="home.svg"
              >
             <ShellContent ContentTemplate="{DataTemplate view:MainPage}"/>
         </Tab>
         <Tab
             x:Name="Settings_tab"
-            Title="Settings"
+            Title="Настройки"
             Icon="settings.svg">
             <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}"/>
         </Tab>

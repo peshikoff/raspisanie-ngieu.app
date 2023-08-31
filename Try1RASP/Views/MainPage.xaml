@@ -177,7 +177,6 @@
             </CollectionView>
             <Button
                 x:Name="Btn_refresh"
-                Text="Запросить"
                 Clicked="GetDataFromApi"
                 HorizontalOptions="Center"
                 FontFamily="Circle-Regular"

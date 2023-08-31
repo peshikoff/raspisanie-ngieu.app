@@ -7,7 +7,7 @@ namespace Try1RASP.Views;
 
 public partial class SettingsPage : ContentPage
 {
-    RestService restService = new RestService();
+    readonly RestService restService = new();
     List<Groups> groups = new();
 
 	public SettingsPage()
@@ -21,6 +21,7 @@ public partial class SettingsPage : ContentPage
         {
             groups = await restService.GetGroupsAsync();
             Choose_group_picker.ItemsSource = groups;
+            Choose_group_picker.Title = Preferences.Get("group", "Выберите группу");
         }
         catch(Exception ex) 
         {
