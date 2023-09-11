@@ -33,10 +33,10 @@ class ToggleButton : Button
             ToggleButton toggleButton = (ToggleButton)bindable;
             bool isToggled = (bool)newValue;
 
-            // Fire event
+            //Вызов во время выполнения потока
             toggleButton.Toggled?.Invoke(toggleButton, new ToggledEventArgs(isToggled));
 
-            // Set the visual state
+            // Установка визуального стиля
             VisualStateManager.GoToState(toggleButton, isToggled ? "ToggledOn" : "ToggledOff");
         }
     }

@@ -107,6 +107,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -128,7 +129,6 @@
                                         FontFamily="Circle-Regular"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"
-                                        
                                     />
                             </Border>
                             <Label
@@ -170,7 +170,15 @@
                               VerticalOptions="Center"
                               HorizontalOptions="StartAndExpand"
                             />
-                            
+                            <Label
+                                x:Name="Group_label"
+                                Grid.Row="5"
+                                Text="{Binding Group, TargetNullValue='',StringFormat='Группа: {0}'}"
+                                FontFamily="Circle-Regular"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"
+                                />
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

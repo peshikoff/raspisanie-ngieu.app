@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Try1RASP.Models;
-using System.Net.Http.Json;
-using System.Text.Json.Nodes;
-using Try1RASP.Views;
-using Try1RASP.CustomControls;
-using static Android.Telephony.CarrierConfigManager;
-using Android.Widget;
-using Toast = CommunityToolkit.Maui.Alerts.Toast;
 
 namespace Try1RASP.Services
 {
@@ -20,13 +8,6 @@ namespace Try1RASP.Services
     {
         readonly HttpClient _client;
         readonly JsonSerializerOptions _serializerOptions;
-        List<RaspisanieModel> rasp = new();
-        List<Groups> groups = new();
-        List<Weeks> week = new();
-        readonly string raspisanieURI = "http://10.0.2.2:8765/api/Mobile/raspisanie/";
-        readonly string changesURI =    "http://10.0.2.2:8765/api/Mobile/changes/";
-        readonly string supportURI =    "http://10.0.2.2:8765/api/Support/";
-        
         public RestService()
         {
             _client = new HttpClient();
@@ -36,74 +17,144 @@ namespace Try1RASP.Services
                 WriteIndented = true
             };
         }
+        List<RaspisanieModel> rasp = new();
+        List<Groups> groups = new();
+        List<Weeks> week = new();
+        List<Teachers> teachers = new();
+
+        readonly string raspisanieURI = "http://10.0.2.2:8765/api/Mobile/raspisanie/";
+        readonly string changesURI =    "http://10.0.2.2:8765/api/Mobile/changes/";
+        readonly string supportURI =    "http://10.0.2.2:8765/api/Support/";
+
+        
+
+
         public async Task<List<RaspisanieModel>> GETraspisanieWithChanges()
         {
-            var group         = Preferences.Get("group","");
-            var day           = Preferences.Get("day", "");
+            var teacher       = Preferences.Get("teacher", null);
+            var group         = Preferences.Get("group","Преподаватели");
+            var day           = Preferences.Get("day", null);
             bool raspisanie   = Preferences.Get("raspisanie", false);
             bool changes      = Preferences.Get("changes", false);
+            List<RaspisanieModel> rasp = new();
 
-            if (raspisanie == true & changes == true)
+            if (group !=null & teacher==null)
             {
                 try
                 {
-                    //Запрос расписания с изменениями
-                    HttpResponseMessage response = await _client
-                        .GetAsync(raspisanieURI + group + "/" + day + "/2", HttpCompletionOption.ResponseHeadersRead);
-
-                    if (response.IsSuccessStatusCode)
+                    if(raspisanie==true & changes==true)
                     {
-                        string json1 = await response.Content.ReadAsStringAsync();
-                        rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                        //Запрос расписания с изменениями raspisanie_changes_events
+                        HttpResponseMessage response = await _client
+                            .GetAsync(raspisanieURI+group+"/"+day+"/group_all",HttpCompletionOption.ResponseHeadersRead);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string json1 = await response.Content.ReadAsStringAsync();
+                            rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                        }
+                    }
+                    else if(raspisanie==false & changes == true)
+                    {
+                        try
+                        {
+                            //Запрос изменений changes/15С/Четверг/group
+                            HttpResponseMessage response = await _client
+                                .GetAsync(changesURI + group + "/" + day+"/group", HttpCompletionOption.ResponseHeadersRead);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string json1 = await response.Content.ReadAsStringAsync();
+                                rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                            }
+                        }
+                        catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
+                    }
+                    else if(raspisanie==true & changes== false)
+                    {
+                        try
+                        {
+                            //Запрос расписания raspisanie/15С/Четверг/group
+                            HttpResponseMessage response = await _client
+                                .GetAsync(raspisanieURI + group + "/" + day + "/group", HttpCompletionOption.ResponseHeadersRead);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string json1 = await response.Content.ReadAsStringAsync();
+                                rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                            }
+
+                        }
+                        catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                }
+                catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
             }
-            else if (raspisanie == true & changes == false)
+            else if (group=="Преподаватели" & teacher !=null)
             {
                 try
                 {
-                    //Запрос расписания без изменений
-                    
-                    HttpResponseMessage response = await _client
-                        .GetAsync(raspisanieURI + group + "/" + day + "/1", HttpCompletionOption.ResponseHeadersRead);
-                    
-                    if (response.IsSuccessStatusCode)
+                    if (raspisanie == true & changes == true)
                     {
-                        string json1 = await response.Content.ReadAsStringAsync();
-                        rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                        //Запрос расписания с изменениями api/Mobile/raspisanie/61b5f61b-d182-4bce-be1c-fb641933b738/Пятница/teacher_all
+                        HttpResponseMessage response = await _client
+                            .GetAsync(raspisanieURI + teacher + "/" + day + "/teacher_all",HttpCompletionOption.ResponseHeadersRead);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string json1 = await response.Content.ReadAsStringAsync();
+                            rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                        }
+                    }
+                    else if (raspisanie == false & changes == true)
+                    {
+                        try
+                        {
+                            //Запрос изменений /61b5f61b-d182-4bce-be1c-fb641933b738/Пятница/teacher
+                            string link = changesURI + teacher + "/" + day + "/teacher";
+                            HttpResponseMessage response = await _client
+                                .GetAsync(link, HttpCompletionOption.ResponseHeadersRead);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string json1 = await response.Content.ReadAsStringAsync();
+                                rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                            }
+                        }
+                        catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
+                    }
+                    else if (raspisanie == true & changes == false)
+                    {
+                        try
+                        {
+                            //Запрос расписания /61b5f61b-d182-4bce-be1c-fb641933b738/Четверг/teacher
+
+                            HttpResponseMessage response = await _client.
+                            GetAsync(raspisanieURI + teacher + "/" + day + "/teacher", HttpCompletionOption.ResponseHeadersRead);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string json1 = await response.Content.ReadAsStringAsync();
+                                rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
+                            }
+                        }
+                        catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                }
+                catch (Exception ex) { Debug.WriteLine(@"\tERROR {0}", ex.Message); }
             }
-            else if (raspisanie == false &changes == true)
+
+            if(group!="Преподаватели")
             {
-                try
+                rasp.ForEach((rasp) =>
                 {
-                    //Запрос изменений
-                    HttpResponseMessage response = await _client
-                        .GetAsync(changesURI + group + "/" + day, HttpCompletionOption.ResponseHeadersRead);
+                    rasp.Group = null;
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string json1 = await response.Content.ReadAsStringAsync();
-                        rasp = JsonSerializer.Deserialize<List<RaspisanieModel>>(json1);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                }
+                });
             }
-
             return rasp;
         }
+
         public async Task<List<Groups>> GetGroupsAsync()
         {
             try
@@ -144,6 +195,28 @@ namespace Try1RASP.Services
 
             }
             return week;
+        }
+        public async Task<List<Teachers>> GetTeachersAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await _client
+                    .GetAsync(supportURI + "GetTeachers", HttpCompletionOption.ResponseHeadersRead);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json1 = await response.Content.ReadAsStringAsync();
+                    teachers = JsonSerializer.Deserialize<List<Teachers>>(json1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            finally
+            {
+
+            }
+            return teachers;
         }
 
     }

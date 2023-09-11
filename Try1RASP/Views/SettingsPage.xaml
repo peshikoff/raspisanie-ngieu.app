@@ -5,25 +5,66 @@
              >
 
     <VerticalStackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
         <Label
-                Text="Ваша группа:"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="End"
-                
-                />
-            <Picker
-                VerticalTextAlignment="End"
-                HorizontalTextAlignment="Start"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                x:Name="Choose_group_picker"
-                ItemDisplayBinding="{Binding Group}"
-                SelectedIndexChanged="Choose_group_picker_SelectedIndexChanged"/>
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Ваша группа:"
             
-        
-        
-        
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="End"
+            VerticalOptions="Center"
+        />
+        <Picker
+            Grid.Row="0"
+            Grid.Column="1"
+            x:Name="Choose_group_picker"
+            
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="End"
+            VerticalOptions="Center"
+
+            ItemDisplayBinding="{Binding Group}"
+            SelectedIndexChanged="Choose_group_picker_SelectedIndexChanged"
+        />
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="Вы:"
+            x:Name="You_teacher"
+            
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="End"
+            VerticalOptions="Center"
+        />
+        <Picker
+            Grid.Row="1"
+            Grid.Column="1"
+            x:Name="Choose_teacher_picker"
+            
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="End"
+            VerticalOptions="Center"
+
+            ItemDisplayBinding="{Binding FIO}"
+            SelectedIndexChanged="Choose_teacher_picker_SelectedIndexChanged"
+        />
+
+
+
     </VerticalStackLayout>
 </ContentPage>

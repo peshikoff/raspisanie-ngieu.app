@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Maui.Alerts;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Runtime.InteropServices;
-using System.Text.Json;
+using Try1RASP.CustomControls;
 using Try1RASP.Models;
 using Try1RASP.Services;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Xaml;
-using Android.Util;
-using Try1RASP.CustomControls;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using Android.App;
-using CommunityToolkit.Maui.Alerts;
 
 namespace Try1RASP.Views;
 
@@ -37,8 +25,13 @@ public partial class MainPage : ContentPage
         }
     };
     public MainPage()
-	{
+    {
         InitializeComponent();
+        ContentPage_Loaded();
+    }
+
+    private void ContentPage_Loaded()
+    {
         try
         {
             foreach (ToggleButton btn in Choose_day_HSL)
@@ -52,39 +45,40 @@ public partial class MainPage : ContentPage
                     }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
-        }
-        try
-        {
+            Preferences.Set("raspisanie", false);
+            Preferences.Set("changes", false);
             GetCurrentWeek();
+            Btn_refresh.Text = "Запросить";
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
-        Btn_refresh.Text = "Запросить";
     }
-	public async void GetDataFromApi(object sender, EventArgs e)
+
+    public async void GetDataFromApi(object sender, EventArgs e)
 	{
         try
         {
             Btn_refresh.Text = "Обновить";
-            if(changes_Tog_btn.IsToggled == false & raspisanie_Tog_btn.IsToggled == false)
+            if (changes_Tog_btn.IsToggled == false & raspisanie_Tog_btn.IsToggled == false)
             {
-                var toast = Toast.Make("Выберите Расписание или Изменения", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                var toast = Toast.Make("Выберите Расписание и/или Изменения", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
                 await toast.Show();
             }
-            else if(Preferences.Get("group", "")=="")
+            else if (Preferences.Get("group", null) == null & Preferences.Get("teachers", null) != null)
             {
                 var toast = Toast.Make("Вы не выбрали группу", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
                 await toast.Show();
             }
-            else if (Preferences.Get("day","")=="")
+            else if (Preferences.Get("day",null)==null)
             {
                 var toast = Toast.Make("Вы не выбрали день", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
+            else if (Preferences.Get("group", null) == null & Preferences.Get("teachers", null) != null)
+            {
+                var toast = Toast.Make("Вы не выбрали ФИО преподавателя", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
                 await toast.Show();
             }
             else
@@ -94,6 +88,7 @@ public partial class MainPage : ContentPage
                 if(rasp.Count>0)
                 {
                     colView.ItemsSource = rasp;
+                   
                     GetCurrentWeek();
                 }
                 else
