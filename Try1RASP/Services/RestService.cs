@@ -31,13 +31,15 @@ namespace Try1RASP.Services
 
         public async Task<List<RaspisanieModel>> GETraspisanieWithChanges()
         {
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             var teacher       = Preferences.Get("teacher", null);
             var group         = Preferences.Get("group","Преподаватели");
             var day           = Preferences.Get("day", null);
             bool raspisanie   = Preferences.Get("raspisanie", false);
             bool changes      = Preferences.Get("changes", false);
             List<RaspisanieModel> rasp = new();
-
+            
             if (group !=null & teacher==null)
             {
                 try
@@ -152,11 +154,14 @@ namespace Try1RASP.Services
 
                 });
             }
+            stopwatch.Stop();
+            Console.WriteLine("Время вывода расписания"+stopwatch.ElapsedMilliseconds);
             return rasp;
         }
 
         public async Task<List<Groups>> GetGroupsAsync()
         {
+            Stopwatch stopwatch = new();
             try
             {
                 HttpResponseMessage response = await _client
@@ -172,10 +177,14 @@ namespace Try1RASP.Services
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
 
             }
+            stopwatch.Stop();
+            Console.WriteLine("Время выполнения на список групп "+stopwatch.ElapsedMilliseconds);
             return groups;
         }
         public async Task<List<Weeks>> GetWeeksAsync()
         {
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             try
             {
                 HttpResponseMessage response = await _client
@@ -194,10 +203,14 @@ namespace Try1RASP.Services
             {
 
             }
+            stopwatch.Stop();
+            Console.WriteLine("Время выполнения на текущую неделю "+stopwatch.ElapsedMilliseconds);
             return week;
         }
         public async Task<List<Teachers>> GetTeachersAsync()
         {
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             try
             {
                 HttpResponseMessage response = await _client
@@ -216,6 +229,8 @@ namespace Try1RASP.Services
             {
 
             }
+            stopwatch.Stop();
+            Console.WriteLine("Время выполнения на список учителей "+stopwatch.ElapsedMilliseconds);
             return teachers;
         }
 

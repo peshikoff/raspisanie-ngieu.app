@@ -1,5 +1,3 @@
-using Microsoft.Maui.Graphics;
-using System;
 namespace Try1RASP.CustomControls;
 
 class ToggleButton : Button

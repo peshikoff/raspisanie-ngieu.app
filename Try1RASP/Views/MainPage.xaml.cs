@@ -27,11 +27,14 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
-        ContentPage_Loaded();
+        ContentPage_LoadedAsync();
+
     }
 
-    private void ContentPage_Loaded()
+    private async Task ContentPage_LoadedAsync()
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         try
         {
             foreach (ToggleButton btn in Choose_day_HSL)
@@ -49,15 +52,27 @@ public partial class MainPage : ContentPage
             Preferences.Set("changes", false);
             GetCurrentWeek();
             Btn_refresh.Text = "Запросить";
+
+            if (Preferences.Get("group", null) == null | Preferences.Get("group", null) != "Преподаватели")
+            {
+                var toast = Toast.Make("Перейдите в настройки и выберите группу", CommunityToolkit.Maui.Core.ToastDuration.Short, 14);
+                await toast.Show();
+            }
         }
         catch (Exception ex)
         {
             Debug.Fail(ex.ToString()); // выведет ошибку в консоль студии
         }
+
+        stopwatch.Stop();
+        Console.WriteLine("Время загрузки контента на страницу" + stopwatch.ElapsedMilliseconds);
+
     }
 
     public async void GetDataFromApi(object sender, EventArgs e)
 	{
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         try
         {
             Btn_refresh.Text = "Обновить";
@@ -102,6 +117,10 @@ public partial class MainPage : ContentPage
         {
             Debug.WriteLine(@"\tERROR {0}", ex.Message); // выведет ошибку в консоль студии
         }
+
+        stopwatch.Stop();
+        Console.WriteLine("Время выполнения метода на проверку условий" + stopwatch.ElapsedMilliseconds);
+
     }
 
     public static bool Vision(string item)
@@ -113,10 +132,13 @@ public partial class MainPage : ContentPage
         else
         {
             return true;
-        }        
+        }
+
     }
     public async void GetCurrentWeek()
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         try
         {
             week = await restService.GetWeeksAsync();
@@ -127,10 +149,16 @@ public partial class MainPage : ContentPage
         {
             Debug.WriteLine(@"\tERROR {0}", ex.Message);
         }
+
+        stopwatch.Stop();
+        Console.WriteLine("Время запроса текущей недели " + stopwatch.ElapsedMilliseconds);
+
     }
 
     private void Day_Toggled(object sender, EventArgs e)
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         try
         {
             Color color = new();
@@ -172,10 +200,17 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString());
         }
+
+        stopwatch.Stop();
+        Console.WriteLine("Время смены дня " + stopwatch.ElapsedMilliseconds);
+
     }
 
     private void changes_Tog_btn_Toggled(object sender, EventArgs e)
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+
         Color Secondary = new();
         Color Primary = new();
 
@@ -216,10 +251,16 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString()); 
         }
+
+        stopwatch.Stop();
+        Console.WriteLine("Время нажатия на кнопку с изменениями" + stopwatch.ElapsedMilliseconds);
+
     }
 
     private void raspisanie_Tog_btn_Toggled(object sender, EventArgs e)
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         Color Secondary = new();
         Color Primary = new();
         try
@@ -258,6 +299,7 @@ public partial class MainPage : ContentPage
         {
             Debug.Fail(ex.ToString());
         }
+        stopwatch.Stop();
+        Console.WriteLine("Время нажатия на кнопку с расписанием"+stopwatch.ElapsedMilliseconds);
     }
 }
-
