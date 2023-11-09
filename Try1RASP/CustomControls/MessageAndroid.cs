@@ -1,10 +1,4 @@
 ﻿using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
 using Try1RASP.CustomControls;
 
 [assembly: Microsoft.Maui.Controls.Dependency(typeof(MessageAndroid))]
